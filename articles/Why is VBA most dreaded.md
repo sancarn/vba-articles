@@ -250,7 +250,7 @@ end if
 
 ### Poor numerical reasoning
 
-Not all developers have good mathematical skills, but most do. However most people who use VBA i.e. those who "make macros" are typically not the best when it comes to mathematics and numerical reasoning. This can lead to overcomplicated or unscalable solutions to problems. Below I've given a few examples of this which I've experienced in the past.
+Developers typically have better mathematical skills than the average Joe. However most people who use VBA i.e. those who "make macros" are typically not the best when it comes to mathematics and numerical reasoning. This can lead to overcomplicated or unscalable solutions to problems. Below I've given a few examples of this which I've experienced in the past.
 
 #### Finding generalised numerical shortcuts
 
