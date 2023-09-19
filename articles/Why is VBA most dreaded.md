@@ -336,10 +336,162 @@ next
 
 It is also extremely common for people to use funky algorithms due to the lack of available data structures / libraries in VBA. 
 
+### Low level hacks and thunks
+
+As a result of lack of development in the VBA language, devs who are extremely experienced and well versed in COM and the VBA runtime, will often resort to using low-level "tricks" and thunks to perform certain tasks. Ultimately many of these tricks or thunks come out of necessity but it doesn't help inexperienced VBA devs, even if they are full stack developers.
+
+```vb
+    hComctl32 = LoadLibrary(StrPtr("comctl32"))
+    hMSVBVM60 = GetModuleHandle(StrPtr("msvbvm60"))
+    
+    If bIsInIDE Then
+        hVBA6 = GetModuleHandle(StrPtr("vba6"))
+    End If
+    
+    ' //
+    ' // The code structure
+    ' //
+    ' // +--------+-----------------------------------+
+    ' // | offset |           description             |
+    ' // +--------+-----------------------------------+
+    ' // |  0x00  | Reference counter                 |
+    ' // |  0x04  | Mapping address of first instance |
+    ' // |  0x08  | The asm code starts here          |
+    ' // |  ....  |                                   |
+    ' // +--------+-----------------------------------+
+    ' //
+    
+    lCodeSize = (UBound(cOp) + 1) * 8 + 8
+    
+    cOp(0) = -172700121577779.7803@:  cOp(1) = 700803790855680.8192@:   cOp(2) = 32381283757.4281@:       cOp(3) = 8880706099704.8576@
+    cOp(4) = 522461228120781.6192@:   cOp(5) = 508377703192199.1681@:   cOp(6) = -857365021913051.7204@:  cOp(7) = 443382.3494@
+    cOp(8) = -441089100593967.8792@:  cOp(9) = 846995906805189.8372@:   cOp(10) = 620186570542432.3336@:  cOp(11) = 626874291154953.5999@
+    cOp(12) = 20596.508@:             cOp(13) = -190689950864645.9042@: cOp(14) = 147676186889862.127@:   cOp(15) = -900719925218220.0576@
+    cOp(16) = 15230408694.5918@:      cOp(17) = -6489317565906.8672@:   cOp(18) = 619989648405870.2934@:  cOp(19) = -147748414298680.988@
+    cOp(20) = 849688782354884.2759@:  cOp(21) = 259535074382164.2883@:  cOp(22) = 583666403534889.1494@:  cOp(23) = -4953584075692.6977@
+    cOp(24) = 850260259709754.0725@:  cOp(25) = 147436517215347.0992@:  cOp(26) = 491014245965020.6288@:  cOp(27) = 576460779796930.9778@
+    cOp(28) = 82199524659143.1821@:   cOp(29) = -7165954328048.4288@:   cOp(30) = 783753342645325.5286@:  cOp(31) = -27796037319571.7501@
+    cOp(32) = -842766526041578.1888@: cOp(33) = 178420980956634.426@:   cOp(34) = 620312248530782.8992@:  cOp(35) = 147436592801036.2344@
+    cOp(36) = 850252832242876.1599@:  cOp(37) = -441089059744232.268@:  cOp(38) = 551550672246059.8296@:  cOp(39) = 166280520433.9748@
+    cOp(40) = -843072447184994.304@:  cOp(41) = 465081571739304.8644@:  cOp(42) = 29843883910475.0084@:   cOp(43) = -169242102482309.7089@
+    cOp(44) = 641312586460930.458@:   cOp(45) = 2043492.7755@:
+        
+    With m_tParams
+        
+        If bIsInIDE Then
+            lCount = UBound(.pfnAPIs) + 1
+        Else
+            lCount = UBound(.pfnAPIs)
+        End If
+        
+        For lIndex = 0 To lCount - 1
+            
+            Select Case lIndex
+            
+            Case 0:     sAPIName = "RemoveWindowSubclass"
+            Case 1:     sAPIName = "DefSubclassProc"
+            Case 2:     sAPIName = "__vbaRaiseEvent"
+            Case 3:     sAPIName = "EbMode"
+           
+            End Select
+            
+            If lIndex < 2 Then
+                .pfnAPIs(lIndex) = GetProcAddress(hComctl32, sAPIName)
+            ElseIf lIndex < 3 Then
+                .pfnAPIs(lIndex) = GetProcAddress(hMSVBVM60, sAPIName)
+            Else
+                .pfnAPIs(lIndex) = GetProcAddress(hVBA6, sAPIName)
+            End If
+            
+            If .pfnAPIs(lIndex) = 0 Then
+                Err.Raise 453, MODULE_NAME & "::" & FUNCTION_NAME
+            End If
+            
+        Next
+        
+        .pHostObject = ObjPtr(Me)
+        
+    End With
+    
+    hMapping = CreateFileMapping(INVALID_HANDLE_VALUE, ByVal 0&, PAGE_EXECUTE_READWRITE, 0, lCodeSize, _
+                                 StrPtr(MODULE_NAME & "#" & MODULE_VERSION & "_" & CStr(GetCurrentProcessId())))
+    If hMapping = 0 Then
+        Err.Raise 7, MODULE_NAME & "::" & FUNCTION_NAME, "CreateFileMapping failed"
+    End If
+    
+    pCode = MapViewOfFile(hMapping, FILE_MAP_READ Or FILE_MAP_WRITE Or FILE_MAP_EXECUTE, 0, 0, 0)
+    If pCode = 0 Then
+        CloseHandle hMapping
+        Err.Raise 7, MODULE_NAME & "::" & FUNCTION_NAME, "MapViewOfFile failed"
+    End If
+    
+    ' // Increment ref counter
+    If InterlockedIncrement(ByVal pCode) = 1 Then
+        ' // Put the address for the first instance
+        PutMem4 ByVal pCode + 4, pCode
+    Else
+        
+        ' // There is already mapped region. Use previous mapping instead current one
+        lTemp = pCode
+        GetMem4 ByVal pCode + 4, pCode
+        UnmapViewOfFile lTemp
+        CloseHandle hMapping
+        hMapping = 0
+        
+    End If
+    
+    ' // Copy asm code
+    memcpy ByVal pCode + 8, cOp(0), lCodeSize - 4
+    
+    ' // Run initialization
+    hr = DispCallFunc(ByVal 0&, pCode + 8, CC_STDCALL, vbLong, 1, vbLong, VarPtr(CVar(VarPtr(m_tParams))), vResult)
+    
+    If hr < 0 Or vResult = 0 Then
+        
+        CloseHandle hMapping
+        
+        If InterlockedDecrement(ByVal pCode) = 0 Then
+            UnmapViewOfFile pCode
+        End If
+        
+        If hr < 0 Then
+            Err.Raise hr, MODULE_NAME & "::" & FUNCTION_NAME, "DispCallFunc failed"
+        Else
+            Err.Raise 5, MODULE_NAME & "::" & FUNCTION_NAME, "Initialization failed"
+        End If
+        
+    End If
+    
+    m_pCode = pCode
+    m_hMapping = hMapping
+    m_bIsInit = True
+```
+
+The reality of the situation is this code is usually battle tested, and if an error occurs it will either be an edge case the author hadn't considered, or an edge case the caller didn't consider. Either way this is a developer's worst nightmare and even if you are a VBA developer with a significant amount of experience you are unlikely to know what is going on here.
+
+
 ## Why is VBA the most dreaded language?
 
 The fact is that most modern developer's experience with VBA will likely be a declaration from the business that an old VBA tool needs to be re-written in a modern language as part of a business application. As such they will be given a project which likely has janky syntax, with awful indentation, no comments, and super old fashioned low level datastructures, that actually trying to make sense of the application in order to rebuild it is an utter nightmare. So it's not really that the language as a whole is dreaded, but that applications built in VBA are dreaded.
 
-[VBA does have it's issues](./Issues%20with%20VBA.html) and these may also be contributing factors, but my personal opinion is that most developers who dread VBA mostly just have bad experiences trying to port poorly written VBA applications to other platforms. VBA in of itself is not an awful language, and it's basis in [COM](https://en.wikipedia.org/wiki/Component_Object_Model) is, dare I say, revolutionary! Most people do have a misunderstanding of COM, and many modern languages don't make working with COM particularly easy. It is quite often seen as a dark art! However COM, as a technology, is still used to this day by [modern Microsoft frameworks](https://en.wikipedia.org/wiki/Windows_Runtime) and is one of those technologies which people keep coming back to because it's so powerful. 
+[VBA does have it's issues](./Issues%20with%20VBA.html) and these may also be contributing factors, but my personal opinion is that most developers who dread VBA mostly just have bad experiences understanding poorly written VBA applications. Unfortunately for them, sometimes devs will be required to understand them, for example in order to port them to other more modern platforms.
 
-> Note: Of course, this is my personal beliefs as to why VBA is dreaded, and we can never really know the real reasons.
+VBA in of itself is not an awful language, and it's basis in [COM](https://en.wikipedia.org/wiki/Component_Object_Model) is, dare I say, revolutionary! Most people do have a misunderstanding of COM, and many modern languages don't make working with COM particularly easy. It is quite often seen as a dark art! However COM, as a technology, is still used to this day by [modern Microsoft frameworks](https://en.wikipedia.org/wiki/Windows_Runtime) and is one of those technologies which people keep coming back to because it's so powerful.
+
+Who's to blame for VBA's status? I think numerous parties are. End users are frequently blamed for creating automated business processes in VBA, but we have to remember that business users regularly have no power and no alternative apart from costly business projects. Ultimately I think the real people to blame comes down to:
+
+* Microsoft:
+    * for ceasing development and improvement of VBA, the macro recorder and the VBE.
+* System Administrators / Cyber Security in Businesses:
+    * for gatekeeping modern programming environments and forcing end users into using legacy tools like VBA to automate business processes.
+    * for continually suggesting the use of poor alternative technologies like PowerPlatform.
+
+Of course, both parties are likely trying to do the right thing. Microsoft has shifted from a developer of "bespoke worse-than-average solutions" to a developer that prefers to stand on the shoulders of giants:
+
+* Internet Explorer, a bespoke web engine, is being phased out for Chromium based Edge web browser.
+* dotNET transitioned from the Windows-only dotNET framework to cross platform and open source dotNET core
+* Visual Studio, a bespoke IDE, has been largely replaced by VS Code a HTML,CSS,JS Electron-based app.
+
+So it's no wonder that Microsoft might want to phase out VBA, in benefit of languages like TypeScript. In a similar vein, System Admins and Cyber Security know that the safest system is one where the users have access to nothing. Users with access to programming languages not only might pose a cyber security risk themselves, but also become a new attack vector for malicious actors. As a result, Cyber Security and IT administrators prefer sandboxed systems like `OfficeScripts` or `Power Platform`.
+
+But ultimately, this is only my theory as to why VBA is the most dreaded language. Here's hoping we get better fitting replacement technologies for VBA in the future.
