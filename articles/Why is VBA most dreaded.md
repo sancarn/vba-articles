@@ -12,7 +12,7 @@ In order to answer this question we must first look at another question - who ac
 
 ![_](./resources/reddit-2021-why-do-you-code-in-vba.png)
 
-From these data we can clearly see that the majority of people who use VBA do so mainly because they have no other choice. Many organisations run their entire business processes with Excel and when a little bit of automation is required VBA is usually \#1 on the list because it's something that IT departments haven't locked down and haven't provided a better alternative for. In business culture IT rarely will allow it's users to even create and query a database. This leads to even more data being trapped in Excel.
+From these data we can clearly see that the majority of people who use VBA do so mainly because they have no other choice. Many organisations run their entire business processes with Excel and when a little bit of automation is required VBA is usually \#1 on the list because it's something that IT departments haven't locked down and haven't provided a better alternative for. In business culture IT rarely will allow its users to even create and query a database. This leads to even more data being trapped in Excel.
 
 In the business I currently work for, in the engineering division, we have access to a variety of technologies:
 
@@ -36,7 +36,7 @@ I echo the sentiment of most users of VBA here. I was also self-taught, but was 
 
 ## The state of VBA projects
 
-Now that we've understood the users, we have to contemplate what state existing VBA projects are in. This can very dramatically from project  to project, and largely dependent on the authors of the project in question.
+Now that we've understood the users, we have to contemplate what state existing VBA projects are in. This can vary dramatically from project  to project, and largely dependent on the authors of the project in question.
 
 
 ### Poor indentation
@@ -164,17 +164,17 @@ End Sub
 Should really be more like this:
 
 ```vb
-    Sub Macro1()
-        With sheets.add()
-            With .Range("A1:A20")
-                .value = Sheet1.Range("A1:A20").value
-                .Style = "Percent"
-            End With
-        End with
-    End sub
+Sub Macro1()
+    With sheets.add()
+        With .Range("A1:A20")
+            .value = Sheet1.Range("A1:A20").value
+            .Style = "Percent"
+        End With
+    End with
+End sub
 ```
 
-The reality is that the macro recorder can work relatively, across many different workbooks (Excel spreadsheets). This does have benefits like being able to record pretty much anything, but it does mean that you get these awful "Select the range, then apply to the selection" macro commands. Later macro recorders like OfficeScripts don't have the ability to work across multiple spreadsheets alleviating the need for a recorder which does this, but as a result OfficeScripts does become less powerful.
+The reality is that the macro recorder makes use of the application state, across many different workbooks (Excel spreadsheets). This does have benefits like being able to record pretty much anything, but it does mean that you get these awful "Select the range, then apply to the selection" macro commands. Later macro recorders like OfficeScripts don't have the ability to work across multiple spreadsheets alleviating the need for a recorder which does this, but as a result OfficeScripts does become less powerful.
 
 Another issue that vba projects which have used the macro recorder have is that quite often a mix of formulae and code will be used, and sometimes it's not clear why they used formulae, and why they used VBA.
 
@@ -222,7 +222,7 @@ Application.CutCopyMode = False
 
 ### Poor seperation of concerns
 
-It is quite common for VBA applications to have monolithic subs instead of seperating code into many smaller functions or objects each with a seperate concern. This again comes mostly from the lack of programming knowledge and experience. Also its' very common that VBA developers will use global variables, or module level variables all the way throughout their code, sometimes not declaring them, all of which produces unexpected behaviour and difficult to maintain code. 
+It is quite common for VBA applications to have monolithic subs instead of seperating code into many smaller functions or objects each with a seperate concern. This again comes mostly from the lack of programming knowledge and experience. Also it's very common that VBA developers will use global variables, or module level variables all the way throughout their code, sometimes not declaring them, all of which produces unexpected behaviour and difficult to maintain code. 
 
 ### Poor adherence to DRY
 
@@ -323,7 +323,7 @@ For each row in rows
 next
 ```
 
-The above, where we are inserting an element into an array is `O(n^2)`, where as a more optimal example would be using a collection, where adding additional items is `O(1)`:
+The above, where we are inserting an element into an array is `O(n^2)`, where as a more optimal example would be using a collection, where adding all items is `O(n)`:
 
 ```vb
 Dim o as collection
