@@ -336,6 +336,34 @@ next
 
 It is also extremely common for people to use funky algorithms due to the lack of available data structures / libraries in VBA. 
 
+### A mix of VBA7 and VBA6 & 32-bit and 64-bit compatible code
+
+In order to integrate with windows OS or use useful APIs not native to VBA, many VBA developers will use win32 APIs. Some examples of where you will need to use the win32 APIs are as follows:
+
+* Making a userform resizable
+* Integrating with the clipboard
+
+If you are lucky a VBA developer will ensure their code works in both VBA7 and VBA6 as well as 32 and 64 bit versions:
+
+```vb
+#if Win64 then
+    Private Const NULL_PTR as LongLong = 0^
+#else
+    Private Const NULL_PTR as Long = 0&
+#end if
+
+#if VBA7 then
+    Private Declare PtrSafe Function OpenClipboard Lib "user32" (Optional ByVal hWnd As LongPtr = NULL_PTR) As Long
+    '...
+#else
+    Private Declare Function OpenClipboard Lib "user32" (Optional ByVal hWnd As Long = NULL_PTR) As Long
+    '...
+#end if
+```
+
+However realistically most VBA developers who run into these problems will be inexperienced and be copy-paste coders, and these devs will [rarely have both](https://stackoverflow.com/a/2913670/6302131). This is not including the large VB6 community, who have created [thousands of examples](https://github.com/Planet-Source-Code/PSCIndex/blob/master/ByWorld/visual-basic.md) of VBA6/32-bit only code, not because the VB6 community doesn't want 64-bit compatible applications, but because Microsoft never gave 64-bit compatibility to VB6... The upgraded office without upgrading VB6. As such, in reality there are a plethora of 32-bit examples out there which will work in 32-bit VBA, but VBA7/64-bit compatible code out there is scarce.
+
+
 ### Low level hacks and thunks
 
 As a result of lack of development in the VBA language, devs who are extremely experienced and well versed in COM and the VBA runtime, will often resort to using low-level "tricks" and thunks to perform certain tasks. Ultimately many of these tricks or thunks come out of necessity but it doesn't help inexperienced VBA devs, even if they are full stack developers.
@@ -482,9 +510,13 @@ Who's to blame for VBA's status? I think numerous parties are. End users are fre
 
 * Microsoft:
     * for ceasing development and improvement of VBA, the macro recorder and the VBE.
+        * and if they aren't going to develop the language the least they could do is OpenSource it...
+    * for ceasing development of VB6, and not upgrading it (along with VBA) to 64-bit. In addition causing a schism between VB6 and VBA communities.
 * System Administrators / Cyber Security in Businesses:
     * for gatekeeping modern programming environments and forcing end users into using legacy tools like VBA to automate business processes.
-    * for continually suggesting the use of poor alternative technologies like PowerPlatform.
+    * for continually suggesting the use of poor alternative technologies like `PowerPlatform`, instead of just suggesting a proper solution like on-prem Python.
+* Businesses generically:
+    * for not properly investing into the development of employee VBA skills. 
 
 Of course, both parties are likely trying to do the right thing. Microsoft has shifted from a developer of "bespoke worse-than-average solutions" to a developer that prefers to stand on the shoulders of giants:
 

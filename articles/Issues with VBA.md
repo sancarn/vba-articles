@@ -32,6 +32,7 @@ This article is TBC, currently it's just a dump of all issues.
 23. Lack of Events on base types - e.g. `Collection::Add()`, `Collection::Remove()`
 24. VBA Keywords - Print, Write, Debug, … - All of these are methods you cannot use! This wouldn’t be the case if VBA namespace wasn’t globally accessible. Why was it designed this way?!
 25. Inability to pass structs BYVAL to low level functions
+26. [Introduction of the pointless keyword `PtrSafe`](https://stackoverflow.com/a/77141128/6302131)
 
 ## Other issues with VBAs Environment:
 
