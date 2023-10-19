@@ -527,3 +527,5 @@ Of course, both parties are likely trying to do the right thing. Microsoft has s
 So it's no wonder that Microsoft might want to phase out VBA, in benefit of languages like TypeScript. In a similar vein, System Admins and Cyber Security know that the safest system is one where the users have access to nothing. Users with access to programming languages not only might pose a cyber security risk themselves, but also become a new attack vector for malicious actors. As a result, Cyber Security and IT administrators prefer sandboxed systems like `OfficeScripts` or `Power Platform`.
 
 But ultimately, this is only my theory as to why VBA is the most dreaded language. Here's hoping we get better fitting replacement technologies for VBA in the future.
+
+{% include comments.html %}
