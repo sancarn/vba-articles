@@ -1,4 +1,6 @@
-# Who uses VBA?
+# Why do people use VBA?
+
+## Introduction
 
 Recently, I watched a video by YouTuber [ThePrimeTime](https://www.youtube.com/watch?v=eJ7oQ6cUwAw) which details a dev's frustrations with business culture. Prime is an ex-entrepreneur who currently works in software development at Netflix. His views in this video have been criticised for being jaded by [FAANG](https://www.google.com/search?q=FAANG+companies) business cultures he has worked in. I personally don't feel this way. Although there is some truth to the [developer's (`mataroa`'s) article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/), I think it misses the root causes of many issues raised. 
 
