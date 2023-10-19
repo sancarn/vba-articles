@@ -45,11 +45,12 @@ This article is TBC, currently it's just a dump of all issues.
 7. VBE doesn’t make it super easy to work outside of itself (lol).
 8. Limitations in Office (e.g. Excel limited rows etc.)
 9. Lack of type hinting
+10. Cannot easily run VBA in the cloud. Cannot easily schedule VBA scripts either. Though, see [TwinBasic](https://twinbasic.com/).
 
 ## Benefits of VBA
 
 1. VBA is on every computer with Microsoft Office. You don’t need permission to run it, everyone can use it 
-2. VBA can access the local file system unlike JavaScript.
+2. VBA can access the local file system unlike OfficeJS / OfficeScript.
 3. VBA has Excel APIs which are mostly intuitive
 4. VBA has the ability to reference any other registered type library on the system.
 5. VBA can use native APIs on Windows OS, and thus can be used to automate windows.

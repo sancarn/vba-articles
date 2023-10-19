@@ -141,4 +141,10 @@ In conclusion, yes, we (and many others in businesses) do choose to use spreadsh
 * Users/SMEs wanting some level of control over the business logic in these systems.
 * It's the only viable technology which is available to everyone, as it's part of Office.
 
+This does not mean that we are at all blind to VBA's weaknesses though:
+
+* [Why is VBA most dreaded?](./Why%20is%20VBA%20most%20dreaded.html)
+* [What is wrong with VBA?](./Issues%20with%20VBA.html)
+
 There's no doubt in my mind that there are some elements of truth to [mataroa's article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/). Sometimes management is poor, but more often than not I believe most people in organisations are trying to do the right thing, and are doing whatever they can with the tools that are available to them.
+
