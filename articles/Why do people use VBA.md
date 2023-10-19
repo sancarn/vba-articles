@@ -73,35 +73,36 @@ OnCloud Replica | N/A | Yes | N/A | Yes | N/A | N/A | No  | No  | Yes | N/A | N/
 
 > Note: Online replicas are de facto replica's in terms of data's importance, although the reason we need to connect to them is diminished
 
-Finally, let's look at our Automation Platforms and how these link to our Data Platforms:
+Finally, let's look at our Automation Platforms and how these link to our Data Platforms. Links shown in the diagram are where the automation platform can access the data from the various data resources:
 
 ![_](./resources/who-uses-vba-data-platform-vs-automation-platform.png)
 
 > Note: Some of the links from VBA to OnCloud services are based on my attempts alone. There is no doubt in my mind that VBA can interface with SAP BW4HANA and our other cloud services, I just haven't figured out the authentication requirements and protocols yet
 
-Here's where you might start to see an issue. Looks like the only automation platforms which can connect to all the data sources we need is VBA and Powershell. Power BI Desktop has been introduced in our business but doesn't hit all the platforms which VBA does, and even if it did Power BI cannot be used for process automation where-as VBA can.
+Here's where you might start to see an issue. Looks like the only automation platforms which can connect to all the data sources we need is `VBA` and `Powershell`. `Power BI Desktop` has been introduced in our business but doesn't hit all the platforms which `VBA` does, and even if it did `Power BI` cannot be used for process automation where-as `VBA` can, so what's the point making the switch? Users who do use `Power BI` to target these other datasets usually generate CSVs of this other data and store these in cloud sharepoint system, but what generates those CSVs? `VBA`.
 
-Now, we'd love to use a higher level language in our organisation to handle this business automation. However, **every request** for a high level language to be installed across the team/business e.g. `Python` / `Ruby` / `Node` / `Rust` etc. has been rejected by CyberSecurity in favour of technologies like `PowerAutomate`, `PowerApps` which as you can see above barely touch **any** of the data we need. It is supposedly "Against the technology strategic vision of the company" to allow end-users access to high level programming languages. Now even if the data access was there in our business, PowerPlatform would still be insufficient to perform the majority of our processes because the algorithms required are so complex that a PowerAutomate solution would become infuriating to maintain and incomprehensible to even IT folks \(e.g. See [projection algorithms](https://www.movable-type.co.uk/scripts/latlong-os-gridref.html#source-code-osgridref)\).
+Now, we'd love to use a higher level language in our organisation to handle this business automation. However, **every request** for a high level language to be installed across the team/business e.g. `Python` / `Ruby` / `Node` / `Rust` etc. has been rejected by CyberSecurity in favour of technologies like `PowerAutomate`, `PowerApps` which as you can see above barely touch **any** of the data we need. It is supposedly "Against the technology strategic vision of the company" to allow "end-users" access to high level programming languages. Now even if the data access was there in our business, `PowerPlatform` would still be insufficient to perform the majority of our processes because the algorithms required are so complex that a `PowerAutomate` solutions would become infuriating to maintain and incomprehensible to even IT folks \(e.g. See [projection algorithms](https://www.movable-type.co.uk/scripts/latlong-os-gridref.html#source-code-osgridref)\).
 
-Ultimately the stand-out technologies for us are `Powershell v3` (doesn't even support class syntax and cannot install modules), and `VBA`, purely from a versatility standpoint. As a result of this 'monopoly' on technology I and others have spent hundreds of hours building [open source VBA libraries](https://github.com/sancarn/awesome-vba)
+Ultimately the stand-out technologies for us are `Powershell v3` (doesn't even support class syntax and cannot install modules), and `VBA`, purely from a versatility standpoint. As a result of this 'monopoly' on technology I and others have spent hundreds of hours building [open source VBA libraries](https://github.com/sancarn/awesome-vba) which augment `VBA` promoting it to a reasonable language by modern standards.
 
 ## The maintenance guarantee of VBA
 
-`D10` and `D11` above are intimately linked. In 2000s many of our systems were built on top of Lotus Notes databases. In 2019 Lotus Notes was acquired by HCL, and since longevity of support has been wavering. Support will officially die in June 2024. As a result, since 2019, technology teams have been trying to migrate many of our systems to new technologies. The business spent an eye watering amount of money developing a system in IBM Business Process manager to supercede one of these Lotus Notes databases. The anticipation was that `D11` would be backfilled with all the data from `D10`, once fully built, and `D10` archived.
+`D10` and `D11` above are intimately linked. In 2000s many of our systems were built on top of [IBM Lotus Notes](https://en.wikipedia.org/wiki/IBM_Lotus_iNotes) databases. In 2019 Lotus Notes was acquired by HCL, and since then longevity of support has been wavering. Support will officially die in June 2024. As a result, since 2019, technology teams have been trying to migrate many of our systems to new technologies. The business spent an eye watering amount of money developing a system using IBM Business Process manager to supercede one of these Lotus Notes databases. The anticipation was that `D11` would be backfilled with all the data from `D10`, once fully built, and `D10` archived.
 
 It's now 2023:
 
 * We are 8 months away from official support dying.
-* Technology teams have thrown away their support contact for IBM BPM
-* IBM BPM system is poorly maintained
-* IBM BPM system has numerous issues and doesn't function as needed
-* System has been shoehorned into IBM BPM despite IBM BPM not being fit for purpose
-  * Meaning that while IBM BPM does come with a REST API, this REST API is borderline useless to Technology teams and SMEs
-* `D11` data model doesn't really support `D10` data either.
+* Technology teams have thrown away their support contact for IBM BPM.
+* There is no replacement in sight for both IBM BPM and Lotus Notes databases.
+* IBM BPM solution is poorly maintained
+* IBM BPM solution has numerous issues and doesn't function as needed
+* Solution has been shoehorned into IBM BPM, despite IBM BPM not being fit for purpose
+  * i.e. while IBM BPM does come with a REST API, this REST API is borderline useless to Technology teams and SMEs
 * The data from `D10` was never actually transferred to `D11`, meaning the business is now using 2 systems instead of 1.
-  * Technology teams have buried their head in the sand, and don't want to hear about this point.
+  * `D11` data model doesn't really support `D10` data either.
+* Technology teams don't want to hear about waning support contracts.
 
-SME's use these tools on a daily basis, and ultimately it is SME's who need changes to the system. If SMEs use VBA, they can control and maintain the system as needed. They have a maintenance guarantee, something that should be said for IT systems...
+SME's use these tools on a daily basis, and ultimately it is SME's who need changes to the system. If SMEs use VBA, they can control and maintain the system as needed. They have a maintenance guarantee, something that should be said for IT systems too, but can't be.
 
 ## The control of VBA
 
