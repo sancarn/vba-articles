@@ -62,14 +62,14 @@ Risk Data       | X   | X   |     |     |     |     | X   |     |     | X   | X 
 Financial Data  |     |     | X   | X   |     |     |     |     |     |     |     | X   |     | 
 Misc Data       | X   | X   |     |     |     | X   | X   |     |     |     |     | X   | X   |
 
-> Note: `D6` would be C tier if it weren't for the fact we continue to store a business critical spreadsheet on Sharepoint OnPrem for compatibility reasons. See case study 3 for details.
+> Note: `D6` would be C tier if it weren't for the fact we continue to store a business critical spreadsheet on Sharepoint OnPrem for compatibility reasons. See [the control of VBA](#the-control-of-vba) for details.
 
 And the data's importance / on cloud replication:
 
 Data Type       | D1  | D2  | D3  | D4  | D5  | D6  | D7  | D8  | D9  | D10 | D11 | D12 | D13 |
 ----------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
 Data Importance | S   | S   | S   | S   | S   | S/C | A   | B   | S   | S   | S   | S   | A   |
-OnCloud Replica | N/A | Yes | N/A | Yes | N/A | N/A | No  | No  | Yes | N/A | N/A | N/A | No  |
+Replica of      | N/A | D1  | N/A | ~D3 | N/A | N/A | N/A | N/A | ~D4 | N/A | N/A | N/A | N/A |
 
 > Note: Online replicas are de facto replica's in terms of data's importance, although the reason we need to connect to them is diminished
 
@@ -148,3 +148,5 @@ This does not mean that we are at all blind to VBA's weaknesses though:
 
 There's no doubt in my mind that there are some elements of truth to [mataroa's article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/). Sometimes management is poor, but more often than not I believe most people in organisations are trying to do the right thing, and are doing whatever they can with the tools that are available to them.
 
+
+{% include comments.html %}
