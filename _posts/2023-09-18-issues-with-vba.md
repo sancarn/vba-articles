@@ -1,6 +1,10 @@
-# Issues with VBA
+---
+layout: post
+title:  "Issues with VBA"
+published: true
+---
 
-This article is TBC, currently it's just a dump of all issues.
+This post is still under development but here's a dump of all issues. Hopefully I'll get around to finishing it some day 👀
 
 ## Issues with the language
 
@@ -60,7 +64,7 @@ This article is TBC, currently it's just a dump of all issues.
 9. Default object methods can be useful for adding syntax sugar to code.
 10. Ability to pass any datatype by reference can be very beneficial.
 11. Ability to create raw array datatypes. Enables full user interaction with WinAPI
-12. Implementation of LongPtr which can work between both 64-bit and 32 bit systems
+12. Implementation of `LongPtr` which can work between both 64-bit and 32 bit systems
 
 ## More reading:
 

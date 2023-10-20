@@ -1,4 +1,8 @@
-# Performance and VBA
+---
+layout: post
+title:  "Performance Tips for VBA"
+published: true
+---
 
 How to improve performance of VBA macros is a common question on the VBA reddit. In this section we will provide examples of code, and test their performance against eachother. We believe it is best to work by example and hope this will give you ideas of how you can improve performance in your projects.
 

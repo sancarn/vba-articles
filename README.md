@@ -1,6 +1,14 @@
-# vba-articles
+---
+title: "VBA articles"
+layout: default
+---
 
-* [Performance Tips](./articles/PerformanceTips.html)
-* [Why is VBA the most dreaded language?](./articles/Why%20is%20VBA%20most%20dreaded.html)
-* [Issues with VBA](./articles/Issues%20with%20VBA.html)
-* [Why do people use VBA?](./articles/Why%20do%20people%20use%20VBA.html)
+
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+        <a href="{{ post.url }}">{{ post.date + " - " + post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

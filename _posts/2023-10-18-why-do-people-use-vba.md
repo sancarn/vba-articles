@@ -1,4 +1,8 @@
-# Why do people use VBA?
+---
+layout: post
+title:  "Why do people use VBA?"
+published: true
+---
 
 ## Introduction
 
