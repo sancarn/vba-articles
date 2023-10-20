@@ -1,28 +1,12 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>VBA Articles</title>
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
-  <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/blog/">Blog</a>
-    </nav>
-    <h1>VBA Articles</h1>
-    <section>
-      <ul>
-        {% for post in site.posts %}
-          <li>
-              <a href="{{ post.url }}">{{ post.date + " - " + post.title }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-    <footer>
-      
-    </footer>
-  </body>
-</html>
+---
+layout: default
+title:  "VBA Articles"
+---
 
+<ul>
+  {% for post in site.posts %}
+    <li>
+        <a href="{{ post.url }}">{{ post.date + " - " + post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
