@@ -2,7 +2,9 @@
 
 ## Introduction
 
-Recently, I watched a video by YouTuber [ThePrimeTime](https://www.youtube.com/watch?v=eJ7oQ6cUwAw) which details a dev's frustrations with business culture. Prime is an ex-entrepreneur who currently works in software development at Netflix. His views in this video have been criticised for being jaded by [FAANG](https://www.google.com/search?q=FAANG+companies) business cultures he has worked in. I personally don't feel this way. Although there is some truth to the [developer's (`mataroa`'s) article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/), I think it misses the root causes of many issues raised. 
+Recently, I watched a video by YouTuber [ThePrimeTime](https://www.youtube.com/@ThePrimeTimeagen) which details a dev's frustrations with business culture. Prime is an ex-entrepreneur who currently works in software development at Netflix. His views in this video have been criticised for being jaded by [FAANG](https://www.google.com/search?q=FAANG+companies) business cultures he has worked in. I personally don't feel this way. Although there is some truth to the [developer's (`mataroa`'s) article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/), I think it misses the root causes of many issues raised. 
+
+{% include youtube.html id="eJ7oQ6cUwAw" %}
 
 I'm working on a [full response](/articles/general-organisation-doesnt-improve.html) to this article, but in the interim I did want to mention something that was discussed briefly as one of the paragraphs of this article.
 
