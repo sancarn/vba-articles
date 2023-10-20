@@ -1,14 +1,3 @@
----
-title: "VBA articles"
-layout: default
----
+# VBA Articles
 
-
-
-<ul>
-  {% for post in site.posts %}
-    <li>
-        <a href="{{ post.url }}">{{ post.date + " - " + post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+Please view the site online: https://sancarn.github.io/vba-articles/
