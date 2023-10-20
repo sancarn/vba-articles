@@ -6,7 +6,7 @@ published: true
 
 In the 2020 StackOverflow survey, it is claimed that VBA is the most dreaded language:
 
-![_](./resources/stackoverflow-2020-vba-most-dreaded.png)
+![_](./assets/img/stackoverflow-2020-vba-most-dreaded.png)
 
 In this article we will explore some of the reasons why this might be the case.
 
@@ -14,7 +14,7 @@ In this article we will explore some of the reasons why this might be the case.
 
 In order to answer this question we must first look at another question - who actually uses VBA in the first place? In 2021 I ran a poll on [/r/vba](http://reddit.com/r/vba) where I asked redditors why they code in VBA.
 
-![_](./resources/reddit-2021-why-do-you-code-in-vba.png)
+![_](./assets/img/reddit-2021-why-do-you-code-in-vba.png)
 
 From these data we can clearly see that the majority of people who use VBA do so mainly because they have no other choice. Many organisations run their entire business processes with Excel and when a little bit of automation is required VBA is usually \#1 on the list because it's something that IT departments haven't locked down and haven't provided a better alternative for. In business culture IT rarely will allow its users to even create and query a database. This leads to even more data being trapped in Excel.
 
@@ -34,7 +34,7 @@ Every request for a high level language to be installed across the team e.g. `Py
 
 Next, in 2022 I ran another poll on `/r/vba` where I asked redditors how they learned VBA. This was their responses:
 
-![_](./resources/reddit-2022-how-did-you-learn-vba.png)
+![_](./assets/img/reddit-2022-how-did-you-learn-vba.png)
 
 I echo the sentiment of most users of VBA here. I was also self-taught, but was fortunate enough to have learnt Lua before learning VBA, and have friends studying computer science, so I adopted many of their best practices. Many people who are self-taught are unlikely to know or have these best practices in mind. Looking at a [recent poll of mine](https://www.reddit.com/r/vba/comments/16ky8ja/do_you_know_or_write_code_in_other_programming), about 1/3 of respondents had not used other languages and therefore are unlikely to follow best practices.
 
@@ -531,5 +531,3 @@ Of course, both parties are likely trying to do the right thing. Microsoft has s
 So it's no wonder that Microsoft might want to phase out VBA, in benefit of languages like TypeScript. In a similar vein, System Admins and Cyber Security know that the safest system is one where the users have access to nothing. Users with access to programming languages not only might pose a cyber security risk themselves, but also become a new attack vector for malicious actors. As a result, Cyber Security and IT administrators prefer sandboxed systems like `OfficeScripts` or `Power Platform`.
 
 But ultimately, this is only my theory as to why VBA is the most dreaded language. Here's hoping we get better fitting replacement technologies for VBA in the future.
-
-{% include comments.html %}

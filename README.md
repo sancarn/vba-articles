@@ -1,3 +1,3 @@
 # VBA Articles
 
-Please view the site online: https://sancarn.github.io/vba-articles/
+This is best viewed online at: https://sancarn.github.io/vba-articles

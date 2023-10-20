@@ -10,19 +10,17 @@ Recently, I watched a video by YouTuber [ThePrimeTime](https://www.youtube.com/@
 
 {% include youtube.html id="eJ7oQ6cUwAw" %}
 
-I'm working on a [full response](/articles/general-organisation-doesnt-improve.html) to this article, but in the interim I did want to mention something that was discussed briefly as one of the paragraphs of this article.
+I have mixed feelings about the article in question. Some areas I agreed with and others I disagreed with. However I did want to address one particular concern / statement:
 
 > I work on a platform that cost my organization an eye-watering sum of money to produce, over the span of two years, and the engineers responsible for it elected to use spreadsheets to control the infrastructure, so we now have a spreadsheet with 400 separate worksheets that powers but one part of this whole shambling mess.
 
 I'm speculating here, but I'd imagine that the business is using VBA to some capacity to control their 400 worksheet collection. So this begs the question:
 
->  Why do people use VBA?
-
 ## Why do people use VBA
 
 In order to answer this question, we must first look at another question - who actually uses VBA in the first place? In 2021 I ran a poll on [/r/vba](http://reddit.com/r/vba) where I asked redditors why they code in VBA.
 
-![_](./resources/reddit-2021-why-do-you-code-in-vba.png)
+![_](./assets/img/reddit-2021-why-do-you-code-in-vba.png)
 
 From these data, we can clearly see that the majority of people who use VBA do so mainly because they have no other choice. Many organisations run their entire business processes with Excel, and when a little bit of automation is required VBA is usually \#1 on the list.
 
@@ -81,7 +79,7 @@ Replica of      | N/A | D1  | N/A | ~D3 | N/A | N/A | N/A | N/A | ~D4 | N/A | N/
 
 Finally, let's look at our Automation Platforms and how these link to our Data Platforms. Links shown in the diagram are where the automation platform can access the data from the various data resources:
 
-![_](./resources/who-uses-vba-data-platform-vs-automation-platform.png)
+![_](./assets/img/who-uses-vba-data-platform-vs-automation-platform.png)
 
 > Note: Some of the links from VBA to OnCloud services are based on my attempts alone. There is no doubt in my mind that VBA can interface with SAP BW4HANA and our other cloud services, I just haven't figured out the authentication requirements and protocols yet
 
@@ -149,10 +147,7 @@ In conclusion, yes, we (and many others in businesses) do choose to use spreadsh
 
 This does not mean that we are at all blind to VBA's weaknesses though:
 
-* [Why is VBA most dreaded?](./Why%20is%20VBA%20most%20dreaded.html)
-* [What is wrong with VBA?](./Issues%20with%20VBA.html)
+* [Why is VBA most dreaded?](./why-is-vba-most-dreaded.html)
+* [What is wrong with VBA?](./issues-with-vba.html)
 
 There's no doubt in my mind that there are some elements of truth to [mataroa's article](https://ludic.mataroa.blog/blog/your-organization-probably-doesnt-want-to-improve-things/). Sometimes management is poor, but more often than not I believe most people in organisations are trying to do the right thing, and are doing whatever they can with the tools that are available to them.
-
-
-{% include comments.html %}
