@@ -1,10 +1,10 @@
 {% if page.authors %}
 
-## Authors
+<h2> Authors </h2>
 
 <div>
   {% for author in page.authors %}
-  <a href="https://github.com/{{author}}"><img src="https://github.com/{{author}}.png?size=40"></img></a>
+  <a href="https://github.com/{{author}}" style="display: inline-block;"><img src="https://github.com/{{author}}.png?size=40"></img></a>
   {% endfor %}
 </div>
 
