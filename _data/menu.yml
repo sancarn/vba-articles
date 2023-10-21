@@ -5,10 +5,12 @@ entries:
   - title: info
     entries:
       - title: A blog primarily about VBA
-      - title: github repo
+      - title: Github
         url: https://github.com/sancarn/vba-articles
-      - title: about.html
+      - title: About
         url: about.html
+      - title: Awesome VBA
+        url: https://github.com/sancarn/awesome-vba
 
   - title: all posts
     post_list:
