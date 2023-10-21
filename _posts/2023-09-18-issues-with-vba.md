@@ -39,6 +39,7 @@ This post is still under development but here's a dump of all issues. Hopefully 
 24. VBA Keywords - Print, Write, Debug, … - All of these are methods you cannot use! This wouldn’t be the case if VBA namespace wasn’t globally accessible. Why was it designed this way?!
 25. Inability to pass structs BYVAL to low level functions
 26. [Introduction of the pointless keyword `PtrSafe`](https://stackoverflow.com/a/77141128/6302131) - This keyword provides no function whatsoever nor any guarantee of safety.
+27. Poor authentication with other Microsoft Services like Sharepoint Online. Excel can query from a Sharepoint Online list, so why is it so hard to do so with VBA?
 
 ## Other issues with VBAs Environment:
 
