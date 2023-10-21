@@ -16,9 +16,9 @@ I have mixed feelings about the article in question. Some areas I agreed with an
 
 > I work on a platform that cost my organization an eye-watering sum of money to produce, over the span of two years, and the engineers responsible for it elected to use spreadsheets to control the infrastructure, so we now have a spreadsheet with 400 separate worksheets that powers but one part of this whole shambling mess.
 
-I'm speculating here, but I'd imagine that the business is using VBA to some capacity to control their 400 worksheet collection. So this begs the question:
+I'm speculating here, but I'd imagine that the business/SMEs (Subject Matter Experts) are using VBA to some capacity to control their 400 worksheet collection. So this begs the question...
 
-## Why do people use VBA
+## Why do people use VBA?
 
 In order to answer this question, we must first look at another question - who actually uses VBA in the first place? In 2021 I ran a poll on [/r/vba](http://reddit.com/r/vba) where I asked redditors why they code in VBA.
 
@@ -77,9 +77,9 @@ Data Type       | D1  | D2  | D3  | D4  | D5  | D6  | D7  | D8  | D9  | D10 | D1
 Data Importance | S   | S   | S   | S   | S   | S/C | A   | B   | S   | S   | S   | S   | A   |
 Replica of      | N/A | D1  | N/A | ~D3 | N/A | N/A | N/A | N/A | ~D4 | N/A | N/A | N/A | N/A |
 
-> Note: Online replicas are de facto replica's in terms of data's importance, although the reason we need to connect to them is diminished
+> Note: Online replicas are de facto replicas in terms of data's importance, although the reason we need to connect to them is diminished
 
-Finally, let's look at our Automation Platforms and how these link to our Data Platforms. Links shown in the diagram are where the automation platform can access the data from the various data resources:
+Finally, let's examine how our Automation Platforms link to our Data Platforms. Links shown in the diagram are where the automation platform can access the data from the various data platforms/sources:
 
 ![_](./assets/img/who-uses-vba-data-platform-vs-automation-platform.png)
 
@@ -106,9 +106,10 @@ It's now 2023:
   * i.e. while IBM BPM does come with a REST API, this REST API is borderline useless to Technology teams and SMEs
 * The data from `D10` was never actually transferred to `D11`, meaning the business is now using 2 systems instead of 1.
   * `D11` data model doesn't really support `D10` data either.
-* Technology teams don't want to hear about waning support contracts.
+* Technology teams appear to be ignoring waning support contracts.
+  * This could be due to lack of resources and/or priority.
 
-SME's use these tools on a daily basis, and ultimately it is SME's who need changes to the system. If SMEs use VBA, they can control and maintain the system as needed. They have a maintenance guarantee, something that should be said for IT systems too, but can't be.
+SME's use these tools on a daily basis, and ultimately it is SME's who determine changes that need to be made to the system. If SMEs use VBA, they can control and maintain the system as needed. They have a maintenance guarantee, something that should be said for IT systems too, but can't be.
 
 ## The control of VBA
 
