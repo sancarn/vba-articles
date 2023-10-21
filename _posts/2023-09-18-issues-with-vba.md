@@ -2,6 +2,8 @@
 layout: post
 title:  "Issues with VBA"
 published: true
+authors:
+  - "Sancarn"
 ---
 
 This post is still under development but here's a dump of all issues. Hopefully I'll get around to finishing it some day 👀

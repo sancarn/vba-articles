@@ -2,6 +2,8 @@
 layout: post
 title:  "Issues with Microsoft Power Platform"
 published: false
+authors:
+  - "Sancarn"
 ---
 
 This post is currently being developed! 👀🥷 Please come back later! 😄

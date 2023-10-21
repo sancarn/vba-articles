@@ -2,6 +2,9 @@
 layout: post
 title:  "Why is VBA the most dreaded language?"
 published: true
+authors:
+  - "Sancarn"
+  - "TarVK"
 ---
 
 In the 2020 StackOverflow survey, it is claimed that VBA is the most dreaded language:
