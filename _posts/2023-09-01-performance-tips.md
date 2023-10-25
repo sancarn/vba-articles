@@ -1369,7 +1369,7 @@ Further reading:
 
 #### A1a) Resizing and Transposing an array
 
-If you're really keen to redim an array lightning fast, you can change the dims of the array using [`CopyMemory` and `SafeArray` struct](https://bytecomb.com/vba-internals-array-variables-and-pointers-in-depth/)
+If you're really keen to redim an array lightning fast, you can change the dims of the array using [`CopyMemory` and `SafeArray` struct](https://web.archive.org/web/20220121153221/https://bytecomb.com/vba-internals-array-variables-and-pointers-in-depth/)
 
 This at least provides a `xd --> yd` translation.
 
