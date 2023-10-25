@@ -93,7 +93,7 @@ Ultimately the stand-out technologies for us are `Powershell v3` (doesn't even s
 
 ## The maintenance guarantee of VBA
 
-`D10` and `D11` above are intimately linked. In 2000s many of our systems were built on top of [IBM Lotus Notes](https://en.wikipedia.org/wiki/IBM_Lotus_iNotes) databases. In 2019 Lotus Notes was acquired by HCL, and since then longevity of support has been wavering. Support will officially die in June 2024. As a result, since 2019, technology teams have been trying to migrate many of our systems to new technologies. The business spent an eye watering amount of money developing a system using IBM Business Process manager to supercede one of these Lotus Notes databases. The anticipation was that `D11` would be backfilled with all the data from `D10`, once fully built, and `D10` archived.
+`D10` and `D11` above are intimately linked. In 2000s many of our systems were built on top of [IBM Lotus Notes](https://en.wikipedia.org/wiki/IBM_Lotus_iNotes) databases. In 2019 Lotus Notes was acquired by HCL, and since then longevity of support has been wavering. Support will officially die in June 2024. As a result, since 2019, technology teams have been trying to migrate many of our systems to new technologies. The business spent an eye watering amount of money developing a system using IBM Business Process manager to supercede one of these Lotus Notes databases. The anticipation was that `D11` would be backfilled with all the data from `D10`, once fully built, and `D10` would be archived.
 
 It's now 2023:
 
@@ -102,12 +102,16 @@ It's now 2023:
 * There is no replacement in sight for both IBM BPM and Lotus Notes databases.
 * IBM BPM solution is poorly maintained
 * IBM BPM solution has numerous issues and doesn't function as needed
-* Solution has been shoehorned into IBM BPM, despite IBM BPM not being fit for purpose
+* Solution has been shoehorned into IBM BPM, despite the platform not being fit for purpose
   * i.e. while IBM BPM does come with a REST API, this REST API is borderline useless to Technology teams and SMEs
+    * Some REST calls use javascript encoded as strings
+    * Others require html embedded in json embedded in xml
+    * Database tables aren't queried by name but by GUID.
+    * There's no documentation of which GUID relates to which table/process.
 * The data from `D10` was never actually transferred to `D11`, meaning the business is now using 2 systems instead of 1.
-  * `D11` data model doesn't really support `D10` data either.
+  * `D11` data model doesn't really support the data in `D10` either.
 * Technology teams appear to be ignoring waning support contracts.
-  * This could be due to lack of resources and/or priority.
+  * This could be due to lack of resources, finances and/or priority.
 
 SME's use these tools on a daily basis, and ultimately it is SME's who determine changes that need to be made to the system. If SMEs use VBA, they can control and maintain the system as needed. They have a maintenance guarantee, something that should be said for IT systems too, but can't be.
 
@@ -135,6 +139,10 @@ Unfortunately, as an admin/SME with more development knowledge than many people 
   * SMEs unable to do this without backend access.
 
 Ultimately, as long as code stays in VBA it is controlled by the SMEs and the business. Technology teams rarely relinquish control to business teams. SMEs can ensure that software is developed properly in a modular fashion and doesn't end up as a cluster of barely working technologies loosely linked together.
+
+## The UX of VBA
+
+This is a smaller one, because you can always make familiar feeling tools in any language, but there is something to be said about the fact that most engineers use spreadsheets in their day job, and how VBA is embedded within these spreadsheets and can improve on UX. Giving someone a foreign tool in a familiar environment, is often much more powerful to that user, than a foreign tool in a foreign environment.
 
 ## Conclusion
 
