@@ -22,7 +22,7 @@ This post is still under development but here's a dump of all issues. Hopefully 
     c. Lack of standard libraries - there are community solutions for this e.g. stdVBA and vb core lib
 8. Inconsistent setting of variables - the set keyword was added because Microsoft wanted to allow for use of default properties on COM objects. It would have been better if these were symbolised by illegal code e.g. something@()
 9. Inconsistent call conventions for subs and functions 
-10. ByRef is default where ByVal is more logical. Assume this was initially to keep code optimal, but generally leads to difficulty in learning. People often just learn “Use ByVal everywhere”, which isn’t correct either.
+10. `ByRef` is default where ByVal is more logical. Assume this was initially to keep code optimal, but generally leads to difficulty in learning. People often just learn “Use ByVal everywhere”, which isn’t correct either.
 11. Inability to define collective types e.g. `Collection<Car>`. This leads to limitations in the type system.
 12. No built in lambda syntax. Understandable due to VBA’s age, but modern languages use a lot of Lambda syntax to make code cleaner. To get around this, TarVK and I reinvented the wheel and created our own lambda syntax systems to get around this fundamental flaw in the language.
 13. Inability to Multithread (or perform tasks asynchronously without re-writing the runtime)
@@ -34,12 +34,15 @@ This post is still under development but here's a dump of all issues. Hopefully 
 19. Poor error reporting -  Lack of native stack traces, lack of line numbers in errors
 20. Lack of reflection, metaprogramming and dynamic dependency injection.
 21. Structs/Types appear to have been bodged on top of the runtime. No union types exist and recursive types don’t exist either.
-22. PtrSafe keyword - Ridiculous that this only exists in some later versions of VBA…
+22. [Introduction of the pointless keyword `PtrSafe`](https://stackoverflow.com/a/77141128/6302131) - This keyword provides no function whatsoever nor any guarantee of safety. Also ridiculous that this only exists in some later versions of VBA…
 23. Lack of Events on base types - e.g. `Collection::Add()`, `Collection::Remove()`
-24. VBA Keywords - Print, Write, Debug, … - All of these are methods you cannot use! This wouldn’t be the case if VBA namespace wasn’t globally accessible. Why was it designed this way?!
-25. Inability to pass structs BYVAL to low level functions
-26. [Introduction of the pointless keyword `PtrSafe`](https://stackoverflow.com/a/77141128/6302131) - This keyword provides no function whatsoever nor any guarantee of safety.
-27. Poor authentication with other Microsoft Services like Sharepoint Online. Excel can query from a Sharepoint Online list, so why is it so hard to do so with VBA?
+24. VBA Keywords - `Print`, `Write`, `Debug`, … - All of these are methods you cannot use! This wouldn’t be the case if VBA namespace wasn’t globally accessible. Why was it designed this way?!
+25. Inability to pass structs `BYVAL` to low level functions
+26. Poor authentication with other Microsoft Services like Sharepoint Online. Excel can query from a Sharepoint Online list, so why is it so hard to do so with VBA?
+27. VBA Attributes are not editable post-import, classes with custom attributes have to be imported and can't just have attributes sitting in code. On many occasions users get confused when trying to use classes with Predeclared IDs as a result, because these must be imported, the code cannot be copy/pasted.
+28. Lack of `static` functions (without also making the class pre-declared). VBA does have "static" keyword which can be assosciated with functions, but has a **completely different meaning** to that used by the rest of the programming world (and is rarely useful).
+29. `Any` type exists for declares but cannot be used in user created subs and functions.
+
 
 ## Other issues with VBAs Environment:
 
