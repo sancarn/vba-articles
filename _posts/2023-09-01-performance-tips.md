@@ -17,14 +17,14 @@ Performance of routines in this document are calculated using [`stdPerformance.c
 You don't need to select a cell to manipulate it. The following statements are equivalent
 
 ```vb
-With stdPerformance.Measure("#1 Select and set", C_MAX)
+With stdPerformance.CreateMeasure("#1 Select and set", C_MAX)
   For i = 1 To C_MAX
     cells(1, 1).select
     selection.value = "hello"
   Next
 End With
 
-With stdPerformance.Measure("#2 Set directly", C_MAX)
+With stdPerformance.CreateMeasure("#2 Set directly", C_MAX)
   For i = 1 To C_MAX
     cells(1, 1).value = "hello"
   Next
@@ -43,7 +43,7 @@ Cutting is defined as the act of removing a value from one location and insertin
 
 ```vb
 const C_MAX as long = 1000
-With stdPerformance.Measure("#1 Cut and paste", C_MAX)
+With stdPerformance.CreateMeasure("#1 Cut and paste", C_MAX)
   For i = 1 To C_MAX
     cells(1, 1).cut
     cells(1, 2).select
@@ -51,7 +51,7 @@ With stdPerformance.Measure("#1 Cut and paste", C_MAX)
   Next
 End With
 
-With stdPerformance.Measure("#2 Set directly + clear", C_MAX)
+With stdPerformance.CreateMeasure("#2 Set directly + clear", C_MAX)
   For i = 1 To C_MAX
     cells(1, 2).value = cells(1, 1).value
     cells(1, 1).Clear
@@ -73,13 +73,13 @@ Using arrays is a common bit of advice to any beginners to improve performance. 
 
 ```vb
 Const C_MAX As Long = 50000
-With stdPerformance.Measure("#1 Looping through individual cells setting values", C_MAX)
+With stdPerformance.CreateMeasure("#1 Looping through individual cells setting values", C_MAX)
   For i = 1 To C_MAX
     Cells(i, 1).Value2 = Rnd()
   Next
 End With
 
-With stdPerformance.Measure("#2 Exporting array in bulk, set values, Import array in bulk", C_MAX)
+With stdPerformance.CreateMeasure("#2 Exporting array in bulk, set values, Import array in bulk", C_MAX)
   'GetRange
   Set r = ActiveSheet.Range("A1").Resize(C_MAX, 10)
 
@@ -112,12 +112,12 @@ Another common suggestion is that `ScreenUpdating` is turned off. `ScreenUpdatin
 
 ```vb
 Const C_MAX As Long = 1000
-With stdPerformance.Measure("#1 Looping through individual cells setting values", C_MAX)
+With stdPerformance.CreateMeasure("#1 Looping through individual cells setting values", C_MAX)
   For i = 1 To C_MAX
     cells(1, 1).value = Empty
   Next
 End With
-With stdPerformance.Measure("#2 w/ ScreenUpdating", C_MAX)
+With stdPerformance.CreateMeasure("#2 w/ ScreenUpdating", C_MAX)
   Application.ScreenUpdating = False
     For i = 1 To C_MAX
       cells(1, 1).value = Empty
@@ -136,13 +136,13 @@ It is important to note however that repeatedly setting cells is bad practice an
 ```vb
 Const C_MAX as Long = 1000
 Dim v(1 To 1) As Long
-With stdPerformance.Measure("#1 Looping through array setting values", C_MAX)
+With stdPerformance.CreateMeasure("#1 Looping through array setting values", C_MAX)
   For i = 1 To C_MAX
     v(1) = Empty
   Next
 End With
 
-With stdPerformance.Measure("#2 w/ ScreenUpdating within loop", C_MAX)
+With stdPerformance.CreateMeasure("#2 w/ ScreenUpdating within loop", C_MAX)
     For i = 1 To C_MAX
       Application.ScreenUpdating= False
         v(1) = Empty
@@ -150,7 +150,7 @@ With stdPerformance.Measure("#2 w/ ScreenUpdating within loop", C_MAX)
     Next
 End With
 
-With stdPerformance.Measure("#3 w/ ScreenUpdating", C_MAX)
+With stdPerformance.CreateMeasure("#3 w/ ScreenUpdating", C_MAX)
   Application.ScreenUpdating = False
     For i = 1 To C_MAX
       v(1) = Empty
@@ -170,13 +170,13 @@ End With
 On many occasions people online will claim that setting `EnableEvents`to false will greatly speed up your code. But does it really?
 
 ```vb
-With stdPerformance.Measure("#1 Looping through individual cells setting values", C_MAX)
+With stdPerformance.CreateMeasure("#1 Looping through individual cells setting values", C_MAX)
   For i = 1 To C_MAX
     cells(1, 1).value = Empty
   Next
 End With
 
-With stdPerformance.Measure("#2 w/ EnableEvents", C_MAX)
+With stdPerformance.CreateMeasure("#2 w/ EnableEvents", C_MAX)
   Application.EnableEvents = False
     For i = 1 To C_MAX
       cells(1, 1).value = Empty
@@ -195,13 +195,13 @@ It is important to note however that repeatedly setting cells is bad practice an
 
 ```vb
 Dim v(1 To 1) As Long
-With stdPerformance.Measure("#1 Looping through array setting values", C_MAX)
+With stdPerformance.CreateMeasure("#1 Looping through array setting values", C_MAX)
   For i = 1 To C_MAX
     v(1) = Empty
   Next
 End With
 
-With stdPerformance.Measure("#2 w/ EnableEvents within loop", C_MAX)
+With stdPerformance.CreateMeasure("#2 w/ EnableEvents within loop", C_MAX)
     For i = 1 To C_MAX
       Application.EnableEvents = False
         v(1) = Empty
@@ -209,7 +209,7 @@ With stdPerformance.Measure("#2 w/ EnableEvents within loop", C_MAX)
     Next
 End With
 
-With stdPerformance.Measure("#3 w/ EnableEvents", C_MAX)
+With stdPerformance.CreateMeasure("#3 w/ EnableEvents", C_MAX)
   Application.EnableEvents = False
     For i = 1 To C_MAX
       v(1) = Empty
@@ -231,7 +231,7 @@ Many sources suggest turning off calculation, and performing a manual calculatio
 ```vb
 Const C_MAX As Long = 50000
 Dim rCell As Range: Set rCell = Sheet1.Range("A1")
-With stdPerformance.Measure("Change Calculation setting", C_MAX)
+With stdPerformance.CreateMeasure("Change Calculation setting", C_MAX)
   Application.Calculation = xlCalculationManual
     For i = 1 To C_MAX
       rCell.Formula = "=1"
@@ -239,7 +239,7 @@ With stdPerformance.Measure("Change Calculation setting", C_MAX)
   Application.Calculation = xlCalculationAutomatic
   Application.Calculate
 End With
-With stdPerformance.Measure("Don't change Calculation", C_MAX)
+With stdPerformance.CreateMeasure("Don't change Calculation", C_MAX)
   For i = 1 To C_MAX
     rCell.Formula = "=1"
   Next
@@ -263,14 +263,14 @@ Some sources suggest turning off the StatusBar will speed up macros, because Exc
 Const C_MAX As Long = 5000000
 With stdPerformance.Optimise   'Disable screen updating and application events
   Dim v
-  With stdPerformance.Measure("Change StatusBar setting", C_MAX)
+  With stdPerformance.CreateMeasure("Change StatusBar setting", C_MAX)
     Application.DisplayStatusBar = False
       For i = 1 To C_MAX
         v = ""
       Next
     Application.DisplayStatusBar = True
   End With
-  With stdPerformance.Measure("Don't change StatusBar", C_MAX)
+  With stdPerformance.CreateMeasure("Don't change StatusBar", C_MAX)
     For i = 1 To C_MAX
       v = ""
     Next
@@ -289,14 +289,14 @@ One may suggest that this is only because the statusBar isn't being set, and/or 
 
 ```vb
 Const C_MAX As Long = 5000
-With stdPerformance.Measure("Change StatusBar setting", C_MAX)
+With stdPerformance.CreateMeasure("Change StatusBar setting", C_MAX)
   Application.DisplayStatusBar = False
     For i = 1 To C_MAX
       Application.StatusBar = i
     Next
   Application.DisplayStatusBar = True
 End With
-With stdPerformance.Measure("Don't change StatusBar", C_MAX)
+With stdPerformance.CreateMeasure("Don't change StatusBar", C_MAX)
   For i = 1 To C_MAX
     Application.StatusBar = i
   Next
@@ -387,19 +387,19 @@ Dim o As New oClass
 Dim x As oClass
 
 'Depth of 1
-With stdPerformance.Measure("D1,No with block", C_MAX)
+With stdPerformance.CreateMeasure("D1,No with block", C_MAX)
     For i = 1 To C_MAX
       v = o.Data
     Next
 End With
-With stdPerformance.Measure("D1,With block", C_MAX)
+With stdPerformance.CreateMeasure("D1,With block", C_MAX)
     With o
       For i = 1 To C_MAX
         v = .Data
       Next
     End With
 End With
-With stdPerformance.Measure("D1,Variable", C_MAX)
+With stdPerformance.CreateMeasure("D1,Variable", C_MAX)
     Set x = o
     For i = 1 To C_MAX
       v = x.Data
@@ -407,19 +407,19 @@ With stdPerformance.Measure("D1,Variable", C_MAX)
 End With
 
 'Depth of 2
-With stdPerformance.Measure("D2,No with block", C_MAX)
+With stdPerformance.CreateMeasure("D2,No with block", C_MAX)
     For i = 1 To C_MAX
       v = o.Self.Data
     Next
 End With
-With stdPerformance.Measure("D2,With block", C_MAX)
+With stdPerformance.CreateMeasure("D2,With block", C_MAX)
     With o.Self
       For i = 1 To C_MAX
         v = .Data
       Next
     End With
 End With
-With stdPerformance.Measure("D2,Variable", C_MAX)
+With stdPerformance.CreateMeasure("D2,Variable", C_MAX)
     Set x = o.Self
     For i = 1 To C_MAX
       v = x.Data
@@ -427,19 +427,19 @@ With stdPerformance.Measure("D2,Variable", C_MAX)
 End With
 
 'Depth of 3
-With stdPerformance.Measure("D3,No with block", C_MAX)
+With stdPerformance.CreateMeasure("D3,No with block", C_MAX)
     For i = 1 To C_MAX
       v = o.Self.Self.Data
     Next
 End With
-With stdPerformance.Measure("D3,With block", C_MAX)
+With stdPerformance.CreateMeasure("D3,With block", C_MAX)
     With o.Self.Self
       For i = 1 To C_MAX
         v = .Data
       Next
     End With
 End With
-With stdPerformance.Measure("D3,Variable", C_MAX)
+With stdPerformance.CreateMeasure("D3,Variable", C_MAX)
     Set x = o.Self.Self
     For i = 1 To C_MAX
       v = x.Data
@@ -515,26 +515,26 @@ It is common knowledge that Late binding is slower than Early binding.
 
 ```vb
 Dim r1 As Object, r2 As VBScript_RegExp_55.RegExp
-With stdPerformance.Measure("#A-1 Late bound creation", C_MAX)
+With stdPerformance.CreateMeasure("#A-1 Late bound creation", C_MAX)
   For i = 1 To C_MAX
     Set r1 = CreateObject("VBScript.Regexp")
   Next
 End With
-With stdPerformance.Measure("#A-2 Early bound creation", C_MAX)
+With stdPerformance.CreateMeasure("#A-2 Early bound creation", C_MAX)
   For i = 1 To C_MAX
     Set r2 = New VBScript_RegExp_55.RegExp
   Next
 End With
 
 Set r1 = CreateObject("VBScript.Regexp")
-With stdPerformance.Measure("#B-1 Late bound calls", C_MAX2)
+With stdPerformance.CreateMeasure("#B-1 Late bound calls", C_MAX2)
   For i = 1 To C_MAX2
     r1.pattern = "something"
   Next
 End With
 
 Set r2 = New VBScript_RegExp_55.RegExp
-With stdPerformance.Measure("#B-2 Early bound calls", C_MAX2)
+With stdPerformance.CreateMeasure("#B-2 Early bound calls", C_MAX2)
   For i = 1 To C_MAX2
     r2.pattern = "something"
   Next
@@ -555,7 +555,7 @@ Contrary to popular belief this has nothing todo with the use of `CreateObject(.
 
 ```vb
 Set r2 = CreateObject("VBScript.Regexp")
-With stdPerformance.Measure("#B-3 Early bound calls via CreateObject", C_MAX2)
+With stdPerformance.CreateMeasure("#B-3 Early bound calls via CreateObject", C_MAX2)
   For i = 1 To C_MAX2
     r2.pattern = "something"
   Next
@@ -571,7 +571,7 @@ It is anticipated that `Object` performs so much slower than strict types becaus
 'improve performance.
 set r1 = CreateObject("VBScript.Regexp")
 Dim ids() as long: ids = DispGetIDsOfNames(r1, Array("pattern"))
-With stdPerformance.Measure("#B-3 Late bound fast dispatch", C_MAX2)
+With stdPerformance.CreateMeasure("#B-3 Late bound fast dispatch", C_MAX2)
   For i = 1 To C_MAX2
     Call DispLetProp(r2, ids(0), "something")
   Next
@@ -586,12 +586,12 @@ Using direct references to types makes your code less portable than using `Objec
 
 ```vb
 v = Split(Space(1000)," ")
-With stdPerformance.measure("#1 `ByVal`", C_MAX)
+With stdPerformance.CreateMeasure("#1 `ByVal`", C_MAX)
   For i = 1 to C_MAX
     Call testByVal(v)
   Next
 End With
-With stdPerformance.measure("#2 `ByRef`", C_MAX)
+With stdPerformance.CreateMeasure("#2 `ByRef`", C_MAX)
   For i = 1 to C_MAX
     Call testByRef(v)
   Next
@@ -673,12 +673,12 @@ Dim i As Long
 Dim c1 As Car1
 Dim c2 As Car2.CarData
 
-With stdPerformance.Measure("A-#1 Object creation (Class)", C_MAX)
+With stdPerformance.CreateMeasure("A-#1 Object creation (Class)", C_MAX)
   For i = 1 To C_MAX
     Set c1 = Car1.Create("hello", 10, 2)
   Next
 End With
-With stdPerformance.Measure("A-#2 Object creation (Module)", C_MAX)
+With stdPerformance.CreateMeasure("A-#2 Object creation (Module)", C_MAX)
   For i = 1 To C_MAX
     c2 = Car2.Car_Create("hello", 10, 2)
   Next
@@ -689,22 +689,22 @@ Set c1 = Car1.Create("hello", 10, 2)
 c2 = Car2.Car_Create("hello", 10, 2)
 
 'Test calling public methods speeds
-With stdPerformance.Measure("B-#1 Object method calls (Class)", C_MAX)
+With stdPerformance.CreateMeasure("B-#1 Object method calls (Class)", C_MAX)
   For i = 1 To C_MAX
     Call c1.Tick
   Next
 End With
-With stdPerformance.Measure("B-#2 Object method calls (Module)", C_MAX)
+With stdPerformance.CreateMeasure("B-#2 Object method calls (Module)", C_MAX)
   For i = 1 To C_MAX
     Call Car2.Car_Tick(c2)
   Next
 End With
 
 'Test calling private method speeds
-With stdPerformance.Measure("C-#1 Object private method calls (Class)", C_MAX)
+With stdPerformance.CreateMeasure("C-#1 Object private method calls (Class)", C_MAX)
   Call c1.TestPriv(C_MAX)
 End With
-With stdPerformance.Measure("C-#2 Object private method calls (Module)", C_MAX)
+With stdPerformance.CreateMeasure("C-#2 Object private method calls (Module)", C_MAX)
   Call Car2.TestPriv(c2, C_MAX)
 End With
 ```
@@ -727,14 +727,14 @@ It is often suggested that you should use Typed data wherever possible for perfo
 Const C_MAX  As Long = 5000000
 
 Dim i As Long
-With stdPerformance.Measure("#1 - Variant", C_MAX)
+With stdPerformance.CreateMeasure("#1 - Variant", C_MAX)
   Dim v() As Variant
   ReDim v(1 To C_MAX)
   For i = 1 To C_MAX
     v(i) = i
   Next
 End With
-With stdPerformance.Measure("#2 - Type", C_MAX)
+With stdPerformance.CreateMeasure("#2 - Type", C_MAX)
   Dim l() As Long
   ReDim l(1 To C_MAX)
   For i = 1 To C_MAX
@@ -752,40 +752,56 @@ In general this is only a real benefit when dealing with very large datasets (>5
 
 ### S10) Bulk range operations
 
-It was anticipated that using `Application.Union()` to create a big range, and then calling delete on this single range would be faster than deleting each row individually. This turned out incorrect.
+It was anticipated that using `Application.Union()` to create a big range, and then calling delete on this single range would be faster than deleting each row individually. This turned out incorrect. That said, building an address and executing the delete in a single operation was significantly faster. Ultimately the lesson here is that
 
 ```vb
-Const C_MAX as long = 5000
+Const C_MAX as long = 10000
 
 Dim i As Long
-Range("A1:X" & C_MAX).value = "Some cool data here"
+  Range("A1:X" & C_MAX).Value = "Some cool data here"
+  With stdPerformance.CreateMeasure("#1 Delete rows 1 by 1", C_MAX)
+    For i = C_MAX To 1 Step -1
+      'Delete only even rows
+      If i Mod 2 = 0 Then
+        Rows(i).Delete
+      End If
+    Next
+  End With
 
-With stdPerformance.Measure("#1 Delete rows 1 by 1", C_MAX)
-  For i = C_MAX To 1 Step -1
-    'Delete only even rows
-    If i Mod 2 = 0 Then
-      Rows(i).Delete
-    End If
-  Next
-End With
 
-With stdPerformance.Measure("#2 Delete all rows in a single operation less branching", C_MAX)
-  Set rng = cells(Rows.count, 1)
-  For i = 1 To C_MAX
-    If i Mod 2 = 0 Then
-      Set rng = Application.Union(rng, Rows(i))
-    End If
-  Next i
-  Set rng = Application.Intersect(rng, Range("1:" & C_MAX))
-  rng.Delete
-End With
+  Range("A1:X" & C_MAX).Value = "Some cool data here"
+  With stdPerformance.CreateMeasure("#2 Delete rows in a single operation - Build range using union", C_MAX)
+    Set Rng = Cells(Rows.count, 1)
+    For i = 1 To C_MAX
+      If i Mod 2 = 0 Then
+        Set Rng = Application.Union(Rng, Rows(i))
+      End If
+    Next i
+    Set Rng = Application.Intersect(Rng, Range("1:" & C_MAX))
+    Rng.Delete
+  End With
+
+  Range("A1:X" & C_MAX).Value = "Some cool data here"
+  With stdPerformance.CreateMeasure("#3 Delete rows in a single operation -  Build range using address", C_MAX)
+    Dim sAddress As String: sAddress = ""
+    For i = C_MAX To 1 Step -1
+      If i Mod 2 = 0 Then
+        sAddress = sAddress & "," & i & ":" & i
+        If Len(sAddress) > 200 Then
+          Range(Mid(sAddress, 2)).Delete
+          sAddress = ""
+        End If
+      End If
+    Next i
+  End With
 ```
 
 **RESULTS**
 
     S11) Bulk range operations
-    #1 Delete rows 1 by 1: 5063 ms  (1012.6µs per operation)
-    #2 Delete all rows in a single operation less branching: 9281 ms  (1856.2µs per operation)
+    #1 Delete rows 1 by 1: 5672 ms (567.2µs per operation)
+    #2 Delete rows in a single operation - Build range using union: 52969 ms (5296.9µs per operation)
+    #3 Delete rows in a single operation -  Build range using address: 1500 ms (150µs per operation)
 
 ### S11) When to use advanced filters
 
@@ -842,7 +858,7 @@ Sub scenario1()
 
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
-    With stdPerformance.Measure("#1 Advanced filter and copy")
+    With stdPerformance.CreateMeasure("#1 Advanced filter and copy")
       'Choose headers
       Sheet2.Range("A1:B1").Value = Array("ID", "Key")
 
@@ -861,7 +877,7 @@ Sub scenario1()
     'loop through rows, move filtered rows to top of array,
     'only return required size of array
     Sheet2.UsedRange.Clear
-    With stdPerformance.Measure("#2 Use of array")
+    With stdPerformance.CreateMeasure("#2 Use of array")
       Dim v: v = Sheet1.Range("A1").CurrentRegion.Value
       Dim iRowLen As Long: iRowLen = UBound(v, 1)
       Dim iColLen As Long: iColLen = UBound(v, 2)
@@ -903,7 +919,7 @@ Sub scenario2()
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
     Dim vResult
-    With stdPerformance.Measure("#1 Advanced filter and copy - array result")
+    With stdPerformance.CreateMeasure("#1 Advanced filter and copy - array result")
       'Get data dimensions
       Dim iNumRow As Long: iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
       Dim iNumCol As Long: iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
@@ -929,7 +945,7 @@ Sub scenario2()
 
     'Use advanced filter, extract results by looping over the range areas
     Dim vResult2() As Variant
-    With stdPerformance.Measure("#2 Advanced filter and areas loop - array result")
+    With stdPerformance.CreateMeasure("#2 Advanced filter and areas loop - array result")
       'get dimensions
       iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
       iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
@@ -971,7 +987,7 @@ Sub scenario2()
 
     'Use a VBA filter
     Dim vResult3() As Variant: iRes = 0
-    With stdPerformance.Measure("#3 Array filter - array result")
+    With stdPerformance.CreateMeasure("#3 Array filter - array result")
       'Get total row count
       iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
 
@@ -993,7 +1009,7 @@ Sub scenario2()
     'Use a VBA filter - return a collection
     'This algorithm is much the same as the above, however we simply add results to a collection instead of to an array. Collections are generally a fast way to have dynamic sizing data.
     Dim cResult As Collection
-    With stdPerformance.Measure("#4 Array filter - collection result")
+    With stdPerformance.CreateMeasure("#4 Array filter - collection result")
       Set cResult = New Collection
       iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
       For i = 1 To iNumRow
@@ -1033,7 +1049,7 @@ Sub scenario3()
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
     Dim vResult1
-    With stdPerformance.Measure("#1 Advanced filter and copy")
+    With stdPerformance.CreateMeasure("#1 Advanced filter and copy")
       'Choose output headers
       HiddenSheet.Range("A4:B4").Value = Array("ID", "Key")
 
@@ -1057,7 +1073,7 @@ Sub scenario3()
     'loop through rows, move filtered rows to top of array,
     'in this scenario remove value from any row which isn't required.
     Dim vResult2
-    With stdPerformance.Measure("#2 Use of array")
+    With stdPerformance.CreateMeasure("#2 Use of array")
       vResult2 = Sheet1.Range("A1").CurrentRegion.Value
       Dim iRowLen As Long: iRowLen = UBound(vResult2, 1)
       Dim iColLen As Long: iColLen = UBound(vResult2, 2)
@@ -1113,12 +1129,12 @@ Sub testVariantCopy()
   Const C_MAX As Long = 1000000
   Dim v1, v2
   With stdPerformance.Optimise
-    With stdPerformance.Measure("#1 DLL", C_MAX)
+    With stdPerformance.CreateMeasure("#1 DLL", C_MAX)
       For i = 1 To C_MAX
         Call VariantCopy(v1, v2)
       Next
     End With
-    With stdPerformance.Measure("#2 VBA", C_MAX)
+    With stdPerformance.CreateMeasure("#2 VBA", C_MAX)
       For i = 1 To C_MAX
         Call VariantCopyVBA(v1, v2)
       Next
@@ -1183,22 +1199,22 @@ The test itself looks like this:
 Const C_MAX As Long = 1000000
 Dim v As Boolean
 
-With stdPerformance.Measure("Help0")
+With stdPerformance.CreateMeasure("Help0")
   For i = 1 To C_MAX
     v = True
   Next
 End With
-With stdPerformance.Measure("Help1", 1 * C_MAX)
+With stdPerformance.CreateMeasure("Help1", 1 * C_MAX)
   For i = 1 To C_MAX
     v = Help1()
   Next
 End With
-With stdPerformance.Measure("Help2", 2 * C_MAX)
+With stdPerformance.CreateMeasure("Help2", 2 * C_MAX)
   For i = 1 To C_MAX
     v = Help2()
   Next
 End With
-With stdPerformance.Measure("Help3", 3 * C_MAX)
+With stdPerformance.CreateMeasure("Help3", 3 * C_MAX)
   For i = 1 To C_MAX
     v = Help3()
   Next
@@ -1239,7 +1255,7 @@ Sub dictionaryTest()
   Dim i As Long, j As Long, iVal As Long
 
   With stdPerformance.Optimise
-    With stdPerformance.Measure("#1 Lookup in array - Naieve approach", C_MAX)
+    With stdPerformance.CreateMeasure("#1 Lookup in array - Naieve approach", C_MAX)
       For i = 2 To C_MAX
         'Lookup key in arrLookup
         For j = 1 To 5
@@ -1251,28 +1267,28 @@ Sub dictionaryTest()
       Next
     End With
 
-    With stdPerformance.Measure("#2 Lookup in dictionary - late binding", C_MAX)
+    With stdPerformance.CreateMeasure("#2 Lookup in dictionary - late binding", C_MAX)
       For i = 2 To C_MAX
         'Lookup key in dict
         iVal = dictLookup(arr(i, 2))
       Next
     End With
 
-    With stdPerformance.Measure("#3 Lookup in dictionary - early binding", C_MAX)
+    With stdPerformance.CreateMeasure("#3 Lookup in dictionary - early binding", C_MAX)
       For i = 2 To C_MAX
         'Lookup key in dict
         iVal = dictLookup2(arr(i, 2))
       Next
     End With
 
-    With stdPerformance.Measure("#4 Generate through logic", C_MAX)
+    With stdPerformance.CreateMeasure("#4 Generate through logic", C_MAX)
       For i = 2 To C_MAX
         'Generate value from key
         iVal = getLookupFromCalc(arr(i, 2))
       Next
     End With
 
-    With stdPerformance.Measure("#5 Generate through logic direct", C_MAX)
+    With stdPerformance.CreateMeasure("#5 Generate through logic direct", C_MAX)
       For i = 2 To C_MAX
         'Generate value from key
         Dim iChar As Long: iChar = Asc(arr(i, 2)) - 64
