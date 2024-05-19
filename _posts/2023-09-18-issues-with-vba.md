@@ -42,7 +42,13 @@ This post is still under development but here's a dump of all issues. Hopefully 
 27. VBA Attributes are not editable post-import, classes with custom attributes have to be imported and can't just have attributes sitting in code. On many occasions users get confused when trying to use classes with Predeclared IDs as a result, because these must be imported, the code cannot be copy/pasted.
 28. Lack of `static` functions (without also making the class pre-declared). VBA does have "static" keyword which can be assosciated with functions, but has a **completely different meaning** to that used by the rest of the programming world (and is rarely useful).
 29. `Any` type exists for declares but cannot be used in user created subs and functions.
-
+30. If an object wants to pass itself into a function call, i.e. `callback.run(me)` this will throw an error "Object doesn't support this property or method". Instead you have to create a reference of `Me` and pass this in instead `Dim oMe as Object: set oMe = me: callback.run(oMe)`
+31. No block comments.
+32. Only allowed 25 line continuations.
+33. Application.Run only allows 30 params.
+34. [This x64 bug](https://stackoverflow.com/questions/63848617/bug-with-for-each-enumeration-on-x64-custom-classes)
+35. Class Constructors and better intialisation `Dim x as New Y(a,b,c)`.
+36. Difference between `Dim X as New Y` and `Dim X as Y: set X = new Y`.
 
 ## Other issues with VBAs Environment:
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Performance Tips for VBA"
+title: "Performance Tips for VBA"
 published: true
 authors:
   - "Sancarn"
@@ -10,8 +10,7 @@ How to improve performance of VBA macros is a common question on the VBA reddit.
 
 Performance of routines in this document are calculated using [`stdPerformance.cls`](https://github.com/sancarn/stdVBA/blob/master/src/stdPerformance.cls) which is part of the [`stdVBA` project](https://github.com/sancarn/stdVBA).
 
-> **FOREWORD**
-> _This section does expect you to be familiar with VBA already, if you are still new to VBA check out the [resources](https://www.reddit.com/r/vba/wiki/resources) section_
+> **FOREWORD** > _This section does expect you to be familiar with VBA already, if you are still new to VBA check out the [resources](https://www.reddit.com/r/vba/wiki/resources) section_
 
 ### S1) Direct Value Setting
 
@@ -34,12 +33,9 @@ End With
 
 **RESULTS**
 
-
     S1) Direct Value Setting
     #1 Select and set: 63 ms  (63µs per iteration)
     #2 Set directly: 16 ms  (16µs per iteration)
-
-
 
 ### S2) Cut-Paste
 
@@ -89,7 +85,7 @@ With stdPerformance.Measure("#2 Exporting array in bulk, set values, Import arra
 
   'Values of Range --> Array
   v = r.Value2
-  
+
   'Modify array
   For i = 1 To C_MAX  'Using absolute just to be clear no extra work is done, but you'd usually use ubound(v,1)
     v(i, 1) = Rnd()
@@ -108,8 +104,7 @@ It can be concluded that to insert multiple values into a range it is always bet
     #1 Looping through individual cells setting values: 1078 ms (21.56µs per operation)
     #2 Exporting array in bulk, set values, Import array in bulk: 266 ms (5.32µs per operation)
 
-
-### S4) Option 
+### S4) Option
 
 #### S4a) `ScreenUpdating`
 
@@ -236,7 +231,7 @@ Many sources suggest turning off calculation, and performing a manual calculatio
 ```vb
 Const C_MAX As Long = 50000
 Dim rCell As Range: Set rCell = Sheet1.Range("A1")
-With stdPerformance.Measure("Change EnableAnimations setting", C_MAX)
+With stdPerformance.Measure("Change Calculation setting", C_MAX)
   Application.Calculation = xlCalculationManual
     For i = 1 To C_MAX
       rCell.Formula = "=1"
@@ -244,7 +239,7 @@ With stdPerformance.Measure("Change EnableAnimations setting", C_MAX)
   Application.Calculation = xlCalculationAutomatic
   Application.Calculate
 End With
-With stdPerformance.Measure("Don't change EnableAnimations", C_MAX)
+With stdPerformance.Measure("Don't change Calculation", C_MAX)
   For i = 1 To C_MAX
     rCell.Formula = "=1"
   Next
@@ -255,8 +250,8 @@ End With
 
 It indeed appears to be the case that disabling calculation, and enabling it afterwards has a significant impact on performance of formula evaluation.
 
-    Change EnableAnimations setting: 1687 ms (33.74µs per operation)
-    Don't change EnableAnimations: 5109 ms (102.18µs per operation)
+    Change Calculation setting: 1687 ms (33.74µs per operation)
+    Don't change Calculation: 5109 ms (102.18µs per operation)
 
 It shouild be noted however that this performance impact is only noticable when changing cells on the worksheet. Either by setting the value directly (range.value) or by setting the formula (range.formula). If instead you are setting the value of an array, changing `calculation` mode has a slightly negative impact on the code.
 
@@ -325,11 +320,9 @@ Given that this example is much like others we'll only display results this time
 
 In a similar vein to `DisplayStatusBar`, displaying page breaks appears to have a negative impact on performance rather than a positive one.
 
-
     'C_MAX = 1000; Setting range value
     Change DisplayPageBreaks setting: 828 ms (828µs per operation)
     Don't change DisplayPageBreaks: 782 ms (782µs per operation)
-
 
 #### S4e) Option `EnableAnimations`
 
@@ -376,7 +369,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public Self As oClass
-Public Data As Boolean    
+Public Data As Boolean
 
 Private Sub Class_Initialize()
   Set Self = Me
@@ -413,7 +406,7 @@ With stdPerformance.Measure("D1,Variable", C_MAX)
     Next
 End With
 
-'Depth of 2    
+'Depth of 2
 With stdPerformance.Measure("D2,No with block", C_MAX)
     For i = 1 To C_MAX
       v = o.Self.Data
@@ -494,8 +487,8 @@ An chart view of this data can be found [here](https://i.imgur.com/Aid031a.png).
 
 **A few important notes:**
 
-1) We only get performance benefits when depth is greater than 2. However in this case there are no negative performance impacts either.
-2) This demonstrates that use of variables can still obtain the performance benefits of `With` blocks, which can help get around some limitations with `With blocks. E.G. imagine setting values in a sheet to values in an object:
+1. We only get performance benefits when depth is greater than 2. However in this case there are no negative performance impacts either.
+2. This demonstrates that use of variables can still obtain the performance benefits of `With` blocks, which can help get around some limitations with `With blocks. E.G. imagine setting values in a sheet to values in an object:
 
 ```vb
 With ThisWorkbook.Sheets(1)
@@ -569,7 +562,7 @@ With stdPerformance.Measure("#B-3 Early bound calls via CreateObject", C_MAX2)
 End With
 ```
 
-This will perform exactly the same as `#B-2`. 
+This will perform exactly the same as `#B-2`.
 
 It is anticipated that `Object` performs so much slower than strict types because `Object` uses the [`IDispatch`](https://docs.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-idispatch) interface of an object. I.E. whenever an object method is called `IDispatch::GetIDsOfNames` is called followed by `IDispatch::Invoke`. Due to the poor performance it is expected that the IDs are not cached for use within the function body, and are instead called each time a function is called. A faster approach would be to call `IDispatch::Invoke` ourselves with known `DispIDs` in scenarios where the object type is known. E.G.
 
@@ -796,18 +789,18 @@ End With
 
 ### S11) When to use advanced filters
 
-In many performance tutorials you will be told to use the Advanced filter to speed up filter operations on data. One might think that Advanced is so much faster than hand crafted techniques that it is always better to use it. 
+In many performance tutorials you will be told to use the Advanced filter to speed up filter operations on data. One might think that Advanced is so much faster than hand crafted techniques that it is always better to use it.
 
 In order to test this out we'll need some data. In this tutorial I'll use the following function to generate a section of data for us to filter on:
 
 ```vb
 'Obtain an array of data to C_MAX size.
 '@param {Long} Max length of data
-'@returns {Variant(nx2)} Returns an array of data 2 columns wide and n rows deep. 
+'@returns {Variant(nx2)} Returns an array of data 2 columns wide and n rows deep.
 Public Function getArray(C_MAX As Long) As Variant
   Dim arr() As Variant
   ReDim arr(1 To C_MAX, 1 To 2)
-  
+
   arr(1, 1) = "ID"
   arr(1, 2) = "Key"
   Dim i As Long
@@ -846,24 +839,24 @@ Sub scenario1()
   Dim iNumCol As Long: iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
   Sheet1.Range("A1").Resize(iNumRow, iNumCol).Value = arr
   Sheet2.UsedRange.Clear
-  
+
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
     With stdPerformance.Measure("#1 Advanced filter and copy")
       'Choose headers
       Sheet2.Range("A1:B1").Value = Array("ID", "Key")
-      
+
       'Choose filter
       HiddenSheet.Range("A1:A2").Value = Application.Transpose(Array("Key", "A"))
       'filter and copy data
       With Sheet1.Range("A1").CurrentRegion
         Call .AdvancedFilter(xlFilterCopy, HiddenSheet.Range("A1:A2"), Sheet2.Range("A1:B1"))
       End With
-      
+
       'Cleanup
       HiddenSheet.UsedRange.Clear
     End With
-    
+
     'Copy data from sheet into an array,
     'loop through rows, move filtered rows to top of array,
     'only return required size of array
@@ -872,7 +865,7 @@ Sub scenario1()
       Dim v: v = Sheet1.Range("A1").CurrentRegion.Value
       Dim iRowLen As Long: iRowLen = UBound(v, 1)
       Dim iColLen As Long: iColLen = UBound(v, 2)
-      
+
       Dim i As Long, j As Long, iRet As Long
       iRet = 1
       For i = 2 To iRowLen
@@ -885,7 +878,7 @@ Sub scenario1()
           End If
         End If
       Next
-      
+
       Sheet2.Range("A1").Resize(iRet, iColLen).Value = v
     End With
   End With
@@ -905,7 +898,7 @@ In scenario 2, we have some data in an array, and want a filtered set of IDs as 
 Sub scenario2()
   'Obtain test data
   Dim arr As Variant: arr = getArray(100000)
-  
+
   'Some of these tests may take some time, so optimise to ensure these don't have an impact
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
@@ -914,43 +907,43 @@ Sub scenario2()
       'Get data dimensions
       Dim iNumRow As Long: iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
       Dim iNumCol As Long: iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
-      
+
       'Create filters data
       HiddenSheet.Range("A1:A2").Value = Application.Transpose(Array("Key", "A"))
       With HiddenSheet.Range("A4").Resize(iNumRow, iNumCol)
         'Dump data to sheet
         .Value = arr
-        
+
         'Call advanced filter
         Call .AdvancedFilter(xlFilterInPlace, HiddenSheet.Range("A1:A2"))
-        
+
         'Get result
         .Resize(, 1).Copy HiddenSheet.Range("D4")
         vResult = HiddenSheet.Range("D4").CurrentRegion.Value
       End With
-      
+
       'Cleanup
       HiddenSheet.ShowAllData
       HiddenSheet.UsedRange.Clear
     End With
-    
+
     'Use advanced filter, extract results by looping over the range areas
     Dim vResult2() As Variant
     With stdPerformance.Measure("#2 Advanced filter and areas loop - array result")
       'get dimensions
       iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
       iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
-      
+
       'Store capacity for at least iNumRow items in result
       ReDim vResult2(1 To iNumRow)
-      
+
       'Create filters data
       HiddenSheet.Range("A1:A2").Value = Application.Transpose(Array("Key", "A"))
       With HiddenSheet.Range("A4").Resize(iNumRow, iNumCol)
         'Set data and call filter
         .Value = arr
         Call .AdvancedFilter(xlFilterInPlace, HiddenSheet.Range("A1:A2"))
-        
+
         'Loop over all visible cells and dump data to array
         Dim rArea As Range, vArea As Variant, i As Long, iRes As Long
         iRes = 0
@@ -966,25 +959,25 @@ Sub scenario2()
             Next
           End If
         Next
-        
+
         'Trim size of array to total number of inserted elements
         ReDim Preserve vResult2(1 To iRes)
       End With
-      
+
       'Cleanup
       HiddenSheet.ShowAllData
       HiddenSheet.UsedRange.Clear
     End With
-    
+
     'Use a VBA filter
     Dim vResult3() As Variant: iRes = 0
     With stdPerformance.Measure("#3 Array filter - array result")
       'Get total row count
       iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
-      
+
       'Make result at least the same number of rows as the base data (We can't return more data than rows in our source data)
       ReDim vResult3(1 To iNumRow)
-      
+
       'Loop over rows, filter condition and assign to result
       For i = 1 To iNumRow
         If arr(i, 2) = "A" Then
@@ -992,11 +985,11 @@ Sub scenario2()
           vResult3(iRes) = arr(i, 1)
         End If
       Next
-      
+
       'Trim array to total result size
       ReDim Preserve vResult3(1 To iRes)
     End With
-    
+
     'Use a VBA filter - return a collection
     'This algorithm is much the same as the above, however we simply add results to a collection instead of to an array. Collections are generally a fast way to have dynamic sizing data.
     Dim cResult As Collection
@@ -1020,13 +1013,13 @@ End Sub
     #3 Array filter - array result: 0 ms per operation
     #4 Array filter - collection result: 0 ms per operation
 
-In reality the time taken for the array/collection methods isn't 0ms for either array or collection, but the calculation was so fast it is impossible to know how much faster it is on such a small amount of data. 
+In reality the time taken for the array/collection methods isn't 0ms for either array or collection, but the calculation was so fast it is impossible to know how much faster it is on such a small amount of data.
 
 #### S11c) Sheet to Array
 
 In our final scenario, we have some data in `Sheet1` and we'd like to obtain a copy of this data in an array which we require for further processing.
 
-In this case what is faster? Using AdvancedFilter? Or using pure array logic? 
+In this case what is faster? Using AdvancedFilter? Or using pure array logic?
 
 ```vb
 Sub scenario3()
@@ -1035,30 +1028,30 @@ Sub scenario3()
   Dim iNumRow As Long: iNumRow = UBound(arr, 1) - LBound(arr, 1) + 1
   Dim iNumCol As Long: iNumCol = UBound(arr, 2) - LBound(arr, 2) + 1
   Sheet1.Range("A1").Resize(iNumRow, iNumCol).Value = arr
-  
-  
+
+
   With stdPerformance.Optimise()
     'Use advanced filter, copy result and paste to new location. Use range.currentRegion.value to obtain result
     Dim vResult1
     With stdPerformance.Measure("#1 Advanced filter and copy")
       'Choose output headers
       HiddenSheet.Range("A4:B4").Value = Array("ID", "Key")
-      
+
       'Choose filters
       HiddenSheet.Range("A1:A2").Value = Application.Transpose(Array("Key", "A"))
-      
+
       'Call advanced filter
       With Sheet1.Range("A1").CurrentRegion
         Call .AdvancedFilter(xlFilterCopy, HiddenSheet.Range("A1:A2"), HiddenSheet.Range("A4:B4"))
       End With
-      
+
       'Obtain results
       vResult1 = HiddenSheet.Range("A4").CurrentRegion.Value
-      
+
       'Cleanup
       HiddenSheet.UsedRange.Clear
     End With
-    
+
     'Array
     'Copy data from sheet into an array,
     'loop through rows, move filtered rows to top of array,
@@ -1068,7 +1061,7 @@ Sub scenario3()
       vResult2 = Sheet1.Range("A1").CurrentRegion.Value
       Dim iRowLen As Long: iRowLen = UBound(vResult2, 1)
       Dim iColLen As Long: iColLen = UBound(vResult2, 2)
-      
+
       Dim i As Long, j As Long, iRet As Long
       iRet = 1
       For i = 2 To iRowLen
@@ -1146,7 +1139,6 @@ Given the slow speeds it is likely that this has something to do with either:
 1. Lack of caching on DLL load
 2. Lack of caching of function address (via GetProcAddress()).
 3. Preparing the arguments of the function call.
-
 
 ### S13) Helper functions
 
@@ -1245,7 +1237,7 @@ Sub dictionaryTest()
   Dim dictLookup: Set dictLookup = getLookupDict()
   Dim dictLookup2 As Dictionary: Set dictLookup2 = dictLookup
   Dim i As Long, j As Long, iVal As Long
-  
+
   With stdPerformance.Optimise
     With stdPerformance.Measure("#1 Lookup in array - Naieve approach", C_MAX)
       For i = 2 To C_MAX
@@ -1258,28 +1250,28 @@ Sub dictionaryTest()
         Next
       Next
     End With
-    
+
     With stdPerformance.Measure("#2 Lookup in dictionary - late binding", C_MAX)
       For i = 2 To C_MAX
         'Lookup key in dict
         iVal = dictLookup(arr(i, 2))
       Next
     End With
-    
+
     With stdPerformance.Measure("#3 Lookup in dictionary - early binding", C_MAX)
       For i = 2 To C_MAX
         'Lookup key in dict
         iVal = dictLookup2(arr(i, 2))
       Next
     End With
-    
+
     With stdPerformance.Measure("#4 Generate through logic", C_MAX)
       For i = 2 To C_MAX
         'Generate value from key
         iVal = getLookupFromCalc(arr(i, 2))
       Next
     End With
-    
+
     With stdPerformance.Measure("#5 Generate through logic direct", C_MAX)
       For i = 2 To C_MAX
         'Generate value from key
@@ -1363,9 +1355,9 @@ This section needs further work to include runnable examples instead of only exp
 
 Further reading:
 
-* [Arrays of Structs](https://www.vbforums.com/showthread.php?706851-RESOLVED-CopyMemory-Shift-Array-one-position).
-* [Arrays of Variants](https://www.vbforums.com/showthread.php?848397-How-do-I-manipulate-data-in-variant-arrays-using-RtlMoveMemory-with-VB6-VBA).
-* [VBSpeed](http://www.xbeat.net/vbspeed/) and [articles](http://www.xbeat.net/vbspeed/articles.htm).
+- [Arrays of Structs](https://www.vbforums.com/showthread.php?706851-RESOLVED-CopyMemory-Shift-Array-one-position).
+- [Arrays of Variants](https://www.vbforums.com/showthread.php?848397-How-do-I-manipulate-data-in-variant-arrays-using-RtlMoveMemory-with-VB6-VBA).
+- [VBSpeed](http://www.xbeat.net/vbspeed/) and [articles](http://www.xbeat.net/vbspeed/articles.htm).
 
 #### A1a) Resizing and Transposing an array
 
