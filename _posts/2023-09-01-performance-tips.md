@@ -793,6 +793,7 @@ Dim i As Long
         End If
       End If
     Next i
+    if sAddress <> "" then Range(Mid(sAddress, 2)).Delete
   End With
 ```
 
