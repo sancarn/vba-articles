@@ -48,7 +48,7 @@ This post is still under development but here's a dump of all issues. Hopefully 
 33. [This x64 bug](https://stackoverflow.com/questions/63848617/bug-with-for-each-enumeration-on-x64-custom-classes)
 34. Class Constructors and better intialisation `Dim x as New Y(a,b,c)`.
 35. Difference between `Dim X as New Y` and `Dim X as Y: set X = new Y`.
-36. Many funcitons and classes have been added to the [global namespace unnecessarily](https://rubberduckvba.blog/2024/08/14/understanding-libraries/comment-page-1/#respond).
+36. Many functions and classes have been added to the [global namespace unnecessarily](https://rubberduckvba.blog/2024/08/14/understanding-libraries/comment-page-1/#respond). This has caused numerous issues  
 
 ## Other issues with VBAs Environment:
 
